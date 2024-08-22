@@ -1,0 +1,107 @@
+
+class CarCompany:
+    def __init__(self, data):
+        self.data = data
+        self.parent = None
+        self.children = []
+
+    def add_child(self, child):
+        child.parent = self
+        self.children.append(child)
+
+    def get_level(self):
+        level = 0
+        p = self.parent
+        while p:
+            p = p.parent
+            level += 1
+        return level
+
+    def print_tree(self):
+        spaces = ' ' * self.get_level() * 3
+        indent = spaces + '|__' if self.parent else ""
+        print(indent + self.data)
+        if self.children:
+            for child in self.children:
+                child.print_tree()
+
+
+class Car:
+    def __init__(self, parent, name, made_in, *attributes):
+        self.data = name
+        self.parent = parent
+        self.made_in = made_in
+        self.attributes = attributes
+        self.children = []
+
+    def add_child(self, child):
+        child.parent = self
+        self.children.append(child)
+
+    def describe(self):
+        print(f"Car Name = {self.data}, properties = {self.attributes}")
+
+    def get_level(self):
+        level = 0
+        p = self.parent
+        while p:
+            p = p.parent
+            level += 1
+        return level
+
+    def print_tree(self):
+        spaces = ' ' * self.get_level() * 3
+        indent = spaces + '|__'
+        print(indent + self.data)
+        if self.children:
+            for child in self.children:
+                child.print_tree()
+
+
+def make_object():
+    if __name__ == '__main__':
+        root = CarCompany('Car')
+        benz = Car(root, 'Mercidez Benz','Germany', 'beautiful', 'luxury', 'German')
+        benz.add_child(Car(benz, 'S-class', 'Germany', 'luxury', 'expensive', 'lots of options', 'stunning'))
+        benz.add_child(Car(benz, 'G-class', 'Germany', 'sport', 'strong', 'Gangster choice', 'moves anywhere'))
+        benz.describe()
+        root.add_child(benz)
+        for i in benz.children:
+            i.describe()
+            i.parent.describe()
+
+        print(benz.parent.children)
+        print(root.children)
+        print(benz.parent.children is root.children)
+# make_object()
+
+
+def instance():
+    root = CarCompany('CAR')
+    benz = CarCompany('Mercedez Benz')
+    benz.add_child(Car(benz, 'S-class', 'Germany', 'luxury', 'expensive', 'lots of options', 'stunning'))
+    benz.add_child(Car(benz, 'G-class', 'Germany', 'sport', 'strong', 'Gangster choice', 'moves anywhere'))
+    benz.add_child(Car(benz, 'E-class', 'Germany', 'electric', 'hybrid engine', 'fast', 'dead silent', ))
+    benz.add_child(Car(benz, 'Mercedez Maybach', 'Germany', 'super luxury', 'Mafia Car', 'super comfortable', ))
+    root.add_child(benz)
+
+    ferrari = CarCompany('Ferrari')
+    ferrari.add_child(Car(ferrari, 'La-Ferrari', 'Italy', 'beautiful', 'super fast', 'super_sport', 'luxury',))
+    ferrari.add_child(Car(ferrari, 'Ferrari 9 11', 'Italy', 'stunning', 'colorful', 'strong engine', 'cut'))
+    root.add_child(ferrari)
+
+    toyota = CarCompany('Toyota')
+    toyota.add_child(Car(toyota, 'Corolla', 'excellent quality', 'cheap tools', 'long usage life', 'durable'))
+    toyota.add_child(Car(toyota, '4Runner', 'Strong', 'tall', 'four wheels alive', 'Gangster choice'))
+    toyota.add_child(Car(toyota, 'Furthner', 'Mafia choice', 'super luxury', 'lux', 'soft and comfortable'))
+    root.add_child(toyota)
+
+    return root
+
+
+if __name__ == '__main__':
+    root = instance()
+    root.print_tree()
+    # print(root.get_level())
+    #
+
