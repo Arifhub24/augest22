@@ -1,0 +1,58 @@
+
+class Member:
+    def __init__(self, name, job):
+        self.name = name
+        self.job = job
+        self.children = []
+        self.parent = None
+
+    def get_level(self):
+        level = 0
+        p = self.parent
+        while p:
+            p = p.parent
+            level += 1
+        return level
+
+
+    def add_child(self, child):
+        child.parent = self
+        self.children.append(child)
+
+    def show_management(self):
+        space = ' ' * self.get_level() * 3
+        indent = space + '|__'  if self.parent else ""
+        describtion = self.name + f'({self.job})'
+        print(indent + describtion) 
+        if self.children:
+            for child in self.children:
+                child.show_management()
+        
+
+
+def instance():
+    Nilupul = Member('Nilupul','CEO')
+    Chinmay = Member('Chinmay', 'CTO')
+    Visha = Member('Visha', 'infrastucture head')
+    Dhaval = Member('Dhaval', 'could manager')
+    Abhijit = Member('Abhijit', 'app manager')
+    Aamir = Member('Aamir', 'application head')
+    Gels = Member('Gels', 'HR Head')
+    Peter = Member('Peter', 'recruitment manager')
+    Waqas = Member('Waqas', 'policy manager')
+    # set hierarchy
+    Nilupul.add_child(Chinmay)
+    Nilupul.add_child(Gels)
+
+    Chinmay.add_child(Visha)
+    Chinmay.add_child(Aamir)
+
+    Visha.add_child(Dhaval)
+    Visha.add_child(Abhijit)
+    
+    Gels.add_child(Peter)
+    Gels.add_child(Waqas)
+
+    Nilupul.show_management()
+instance()
+
