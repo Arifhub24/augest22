@@ -1,0 +1,60 @@
+import random
+from collections import Counter
+
+
+results = []
+
+
+def main():
+    first = random.randint(1,6)
+    second = random.randint(1,6)
+    return first + second
+
+
+def evaluate(func):
+    times = int(input('How many times to run the dice: '))
+    while times:
+        launch = func()
+        if launch == 2:
+            results.append('2')
+        elif launch == 3:
+            results.append('3')
+        elif launch == 4:
+            results.append('4')
+        elif launch == 5:
+            results.append('5')
+        elif launch == 6:
+            results.append('6')
+        elif launch == 7:
+            results.append('7')
+        elif launch == 8:
+            results.append('8')
+        elif launch == 9:
+            results.append('9')
+        elif launch == 10:
+            results.append('10')
+        elif launch == 11:
+            results.append('11')
+        elif launch == 12:
+            results.append('12')
+        times = times - 1
+
+evaluate(main)
+
+
+print(results)
+
+
+count_numbers = Counter(results)
+print(count_numbers)
+
+
+
+def percents():
+    num = int(input('occurence of which number (1-12) : '))
+    times_appeared = count_numbers[str(num)]
+    percent_num = (times_appeared / len(results))*100
+    print(percent_num , '%')
+    
+percents()
+
