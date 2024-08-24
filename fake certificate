@@ -1,0 +1,83 @@
+
+
+def main(string, n):
+    if string[-1] == '0':          # this is for error handling of this function.
+        string += '1'
+    else:
+        string += '0'
+
+    survey = []
+    previous = string[0]
+    counter_previous = 1
+
+    for i in range(1, n+1):
+        if string[i] == previous:
+            counter_previous += 1
+        else:
+            survey.append((previous, counter_previous))
+            counter_previous = 1
+            previous = string[i]
+    survey.append((previous,counter_previous))
+    # print(survey)
+    return survey
+
+
+def process_survey(survey):
+    max_upsent = []
+    len_survery = len(survey)
+    for i in range(len_survery-1):
+        if survey[i][0] == '1':
+            if i < len_survery -2:
+                next = survey[i+1]
+                next_2 = survey[i+2]
+                total = survey[i][1] + next[1] + next_2[1]
+                max_upsent.append(total)
+
+            elif i == len_survery -2:
+                next = survey[i+1]
+                total = survey[i][1] + survey[i+1][1]
+                max_upsent.append(total)
+    # print(max_upsent)
+    # print(max(max_upsent))
+    return max(max_upsent)
+
+def one_one_in_string(n, string):
+    target = None
+    before = 0
+    after = 0
+    for i in range(n):
+        if string[i] != '1' and not target:
+            before += 1
+        elif string[i] == '1':
+            target = i
+        elif string[i] != '1' and string[i]:
+            after += 1
+    # print('before: ', before)
+    # print('target:', target)
+    # print('after: ', after)
+    print(max(before , after)+1)
+
+            
+
+for i in range(int(input())):
+    n = int(input())
+    s = input()
+    if s.count('0') == 0 or s.count('1') == 0:
+        print(n)
+    elif s.count('1') == 1:
+        if s.startswith('1') or s.endswith('1'):
+            print(n)
+        else:
+            one_one_in_string(n,s)
+    else:
+        operation_1 = main(s,n)
+        operation_2 = process_survey(operation_1)
+        print(operation_2)
+
+
+
+# my_string = '011001100000110100000010100000000010'  
+# N = len(my_string)       
+# Sur = main(my_string,N-1)
+# processed = process_survey(Sur)
+# print(processed)
