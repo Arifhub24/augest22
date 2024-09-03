@@ -1,0 +1,71 @@
+class Stack:
+    def __init__(self):
+        self.stack = []
+    
+    def push(self, element):
+        self.stack.append(element)
+    
+    def pop(self):
+        if self.isEmpty():
+            return "Stack is empty"
+        return self.stack.pop()
+    
+    def peek(self):
+        if self.isEmpty():
+            return "Stack is empty"
+        return self.stack[-1]
+    
+    def isEmpty(self):
+        return len(self.stack) == 0
+    
+    def size(self):
+        return len(self.stack)
+    
+    def showStack(self):
+        print(self.stack)
+    
+    def sum_elements(self):
+        return sum(self.stack)
+    
+# size = 6
+# elements = [5 ,5, 3, 8, 6, 2] # first we sort the list in decreasing order [8,6,5,5,3,2]
+# elements = sorted(elements, reverse=True)
+
+
+
+
+
+
+
+for i in range(int(input())):
+    N = int(input())
+    elements = list(map(int,input().split()))
+    elements = sorted(elements, reverse=True)
+    my_stack = Stack()
+
+    for i in range(N):
+        my_stack.push(elements[i])
+
+    remaining = Stack()
+    def frustrated_coder():
+        global my_stack, remaining
+        if my_stack.size() == 1:
+            last_element = my_stack.pop()
+            remaining.push(last_element)
+            return
+        d = my_stack.pop()
+        u = my_stack.peek()
+        if u > d:
+            frustrated_coder()
+        elif u == d:
+            if remaining.size() > 0:
+                if remaining.peek() < d:
+                    remaining.pop()
+            remaining.push(d)
+            frustrated_coder()
+
+    frustrated_coder()
+    remaining.showStack()
+    print('the answer of the algorithm is --> ',remaining.sum_elements())
+        
+
