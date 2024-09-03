@@ -1,0 +1,70 @@
+class TreeNode:
+    def __init__(self, data):
+        self.data = data
+        self.left = None
+        self.right = None
+    
+
+# the bellow three way of traversals are importable to other modules and are resuable just by passing root binaryTree
+def preOrderTraversal(root,level=0):
+    if not root:
+        return
+    indent = '  ' * level +'|_'
+    if level == 0:
+        print(str(root.data))
+    else:
+        print(indent + str(root.data))
+    preOrderTraversal(root.left,level+1)
+    preOrderTraversal(root.right,level+1)
+
+
+def inOrderTraversal(root, level=0):
+    if not root:
+        return
+    indent = '   ' * level +'|--'
+    inOrderTraversal(root.left,level+1)
+    if level == 0:
+        print(str(root.data))
+    else:
+        print(indent + str(root.data))
+    inOrderTraversal(root.right, level+1)
+
+
+def postOrderTraversal(root,level=0):
+    indent = f'   ' * level + str(level) + '. '
+    if not root:
+        return
+    postOrderTraversal(root.left,level+1)
+    postOrderTraversal(root.right,level+1)
+    print(indent + str(root.data))
+        
+def levelOrderTraversal(root,level=0):
+    pass
+
+def make_instance():
+    newBT = TreeNode('drinks')
+    coldDrinks = TreeNode('cold')
+    hotDrinks = TreeNode('hot')
+    newBT.left = coldDrinks
+    newBT.right = hotDrinks
+
+    fanta = TreeNode('fanta')
+    coca = TreeNode('coca')
+    coldDrinks.left = coca
+    coldDrinks.right = fanta
+
+    coffee = TreeNode('coffee')
+    tea = TreeNode('tea')
+    hotDrinks.left = coffee
+    hotDrinks.right = tea
+    return newBT
+
+if __name__ == '__main__':
+    newBT = make_instance()
+    preOrderTraversal(newBT)
+    print('_______________________________________')
+    inOrderTraversal(newBT)
+    print('_______________________________________')
+    postOrderTraversal(newBT)
+
+
