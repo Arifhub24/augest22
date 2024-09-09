@@ -1,0 +1,186 @@
+
+class Node:
+    def __init__(self,data):
+        self.data = data
+        self.next = None
+
+    
+
+
+class LinkedList:
+    def __init__(self):
+        self.head = None
+        self.tail = None
+        self.length = 0
+
+    def __str__(self):
+        result = ''
+        current = self.head
+        while current is not None:
+            result += str(current.data)
+            if current.next:
+                result += ' -> '
+            current = current.next
+        return result
+    
+    def append(self, data):
+        newNode = Node(data)
+        if self.head is None:
+            self.head = newNode
+            self.tail = newNode
+        
+        else:
+            self.tail.next = newNode
+            self.tail = newNode
+        self.length += 1
+
+    def prepend(self, data):
+        newNode = Node(data)
+        if not self.head:
+            self.head = newNode
+            self.tail = newNode
+        else:
+            newNode.next = self.head
+            self.head = newNode
+        self.length += 1
+    
+    def insert(self,index, data):
+        newNode = Node(data)
+        if index > self.length or index < 0:
+            raise ValueError(f"Invalid index. Expected index from 0 to {self.length}")
+            
+        if index == 0:
+            if self.head:
+                newNode.next = self.head
+                self.head = newNode
+            elif not self.head:
+                self.head = newNode
+                self.tail = newNode
+        elif index == self.length:
+            self.tail.next = newNode
+            self.tail = newNode
+        
+        else:
+            current = self.head
+            for _ in range(index-1):
+                current = current.next
+            
+            newNode.next = current.next
+            current.next = newNode
+        self.length += 1
+
+    def traverse(self):
+        current = self.head
+        while current:
+            print(current.data)
+            current = current.next
+
+    def search(self, value):
+        current = self.head
+        index = 0
+        while current:
+            if current.data == value:
+                return index
+            current = current.next
+            index += 1
+        return False
+
+    def pop(self):
+        if self.length == 0:
+            return None
+        elif self.length == 1:
+            tData = self.tail.data
+            self.head = None
+            self.tail = None
+        else:
+            temp = self.head
+            while temp.next is not self.tail:
+                temp = temp.next
+            
+            tData = self.tail.data
+            temp.next = None
+            self.tail = temp
+        self.length -= 1
+        return tData
+
+    def get(self, index):
+        if index > self.length or index < 0:
+            return None
+        current = self.head
+        for _ in range(index):
+            current = current.next
+        return current
+
+    def set(self, index, value):
+        temp = self.get(index)
+        if temp:
+            temp.data = value
+            return True
+        return False
+
+    def popFirst(self):
+        if self.length == 0:
+            return None
+        current = self.head
+        if self.length > 1:
+            self.head = self.head.next
+        else:
+            self.head = None
+            self.tail = None
+        self.length -= 1
+        return current.data
+    
+    # def remove2(self, index):
+        if index > self.length or index < 0:
+            return 'invalid index'
+        elif index == 0:
+            index_0 = self.head
+            if self.length > 1:   
+                self.head = self.head.next
+            elif self.length == 1:
+                self.head = self.tail = None
+            self.length -= 1
+            return index_0.data
+        else:
+            current = self.head
+            for _ in range(index-1):
+                current = current.next
+            toRemove = current.next
+            current.next = current.next.next
+            return toRemove.data
+
+    def remove(self, index):
+        if index >= self.length or index < -1:
+            return "invalid index"
+
+        if index == 0:
+            popped_node = self.popFirst()
+        if index == self.length-1 or index == -1:
+            return self.pop()
+        else:
+            prev_node = self.get(index-1)
+            popped_node = prev_node.next
+            prev_node.next = popped_node.next
+            popped_node.next = None
+        self.length -= 1
+        return popped_node.data
+
+    def delete_all(self):
+        self.head = None
+        self.tail = None
+        self.length = 0
+
+if __name__ == "__main__":
+
+    myLinkedList = LinkedList()
+    myLinkedList.append(10)
+    myLinkedList.append(20)
+    myLinkedList.append(30)
+    myLinkedList.append(40)
+    myLinkedList.append(50)
+    myLinkedList.append(60)
+    myLinkedList.append(70)
+    myLinkedList.delete_all()
+    print(myLinkedList.tail)
+    print(myLinkedList.head)
+    print(myLinkedList)
