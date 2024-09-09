@@ -1,0 +1,52 @@
+
+class BSTNode:
+	def __init__(self, data):
+		self.data = data
+		self.left = None
+		self.right = None
+
+myBST = BSTNode(None)
+
+
+def insertNode(rootNode, data):
+	if rootNode.data == None:
+		rootNode.data = data
+	else:
+		if data < rootNode.data:
+			if rootNode.left:
+				insertNode(rootNode.left,data)
+			else:
+				rootNode.left = BSTNode(data)
+
+		if data > rootNode.data:
+			if rootNode.right:
+				insertNode(rootNode.right,data)
+			else:
+				rootNode.right = BSTNode(data)
+
+def showTree(rootNode, level = 0):
+	if not rootNode:
+		return
+	if level == 0:
+		indent = ''
+	else:
+		indent = level * '  ' + '|_'
+		
+	print(indent, rootNode.data)
+	showTree(rootNode.left,level+1)
+	showTree(rootNode.right,level+1)
+
+
+
+insertNode(myBST, 70)
+insertNode(myBST, 50)
+insertNode(myBST, 30)
+insertNode(myBST, 60)
+insertNode(myBST, 90)
+insertNode(myBST, 80)
+insertNode(myBST, 20)
+insertNode(myBST, 40)
+insertNode(myBST, 100)
+
+showTree(myBST)
+
