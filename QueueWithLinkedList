@@ -1,0 +1,95 @@
+# this code is an implementation of Queue using linked list
+# note that it is a fifoQueue	by: Arif Aliyar
+
+class Node:
+	def __init__(self, value=None):
+		self.value = value
+		self.next = None
+
+	def __str__(self):
+		return str(self.value)
+
+class LinkedList:
+	def __init__(self):
+		self.head = None
+		self.tail = None
+
+	def __iter__(self):
+		curNode = self.head
+		while curNode:
+			yield curNode
+			curNode = curNode.next
+
+class Queue:
+	def __init__(self):
+		self.linkedlist = LinkedList()
+
+	def __str__(self):
+		values = [str(x) for x in self.linkedlist]
+		return ' '.join(values)
+
+	def enqueue(self, value):
+		newNode = Node(value)
+		if not self.linkedlist.head:
+			self.linkedlist.head = newNode
+			self.linkedlist.tail = newNode
+		else:
+			self.linkedlist.tail.next = newNode
+			self.linkedlist.tail = newNode
+
+	def isEmpty(self):
+		if not self.linkedlist.head:
+			return True
+		else:
+			return False
+
+	def dequeue(self):
+		if self.isEmpty():
+			return 'Empty Queue'
+
+		current = self.linkedlist.head
+		if self.linkedlist.head == self.linkedlist.tail:
+			self.linkedlist.head = self.linkedlist.tail = None 
+		else:
+			self.linkedlist.head = self.linkedlist.head.next
+		return current.value
+
+	def peek(self):
+		if self.isEmpty():
+			return None 
+		else:
+			return self.linkedlist.head.value
+
+	def delete(self):
+		self.linkedlist.head = self.linkedlist.tail = None 
+
+
+if __name__ == '__main__':
+	myQueue = Queue()
+	myQueue.enqueue(10)
+	myQueue.enqueue(20)
+	myQueue.enqueue(30)
+	print(myQueue)
+	exitedFirst = myQueue.dequeue()
+	print('exited first = ',exitedFirst)
+	exitedSecond = myQueue.dequeue()
+	print('exited second = ',exitedSecond)
+	exitedThird = myQueue.dequeue()
+	print('exitedThird = ',exitedThird)
+
+	# the Queue becomes empty at this point
+
+	myQueue.enqueue(40)
+	myQueue.enqueue(50)
+	myQueue.enqueue(60)
+	print(myQueue)
+	p = myQueue.peek()
+	print(p)
+	print(myQueue)
+
+	# the Queue has three elements at this point
+
+	myQueue.delete()
+	print(myQueue)
+
+
